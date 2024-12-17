@@ -25,7 +25,7 @@ class HuggingFaceDecoder(DecoderBase):
 
         kwargs = {
             "device_map": device_map,
-            "trust_remote_code": self.trust_remote_code,
+            "trust_remote_code": True,
             "torch_dtype": getattr(torch, self.dtype),
             "attn_implementation": attn_implementation,  # "eager", "flash_attention_2", "sdpa"
         }
@@ -34,7 +34,7 @@ class HuggingFaceDecoder(DecoderBase):
         print(f"{kwargs = }")
 
         self.force_base_prompt = force_base_prompt
-        self.tokenizer = AutoTokenizer.from_pretrained(name, use_fast=False)
+        self.tokenizer = AutoTokenizer.from_pretrained(name)
         if self.is_direct_completion():  # no chat template
             self.eos += extra_eos_for_direct_completion(dataset)
         else:  # with chat template

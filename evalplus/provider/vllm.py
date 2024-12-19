@@ -26,13 +26,13 @@ class VllmDecoder(DecoderBase):
         kwargs = {
             "tensor_parallel_size": tensor_parallel_size,
             "dtype": self.dtype,
-            "trust_remote_code": self.trust_remote_code,
+            "trust_remote_code": True,
             "enable_prefix_caching": enable_prefix_caching,
             "enable_chunked_prefill": enable_chunked_prefill,
         }
 
         self.force_base_prompt = force_base_prompt
-        self.tokenizer = AutoTokenizer.from_pretrained(self.name, use_fast=False)
+        self.tokenizer = AutoTokenizer.from_pretrained(self.name)
         if self.is_direct_completion():
             self.eos += extra_eos_for_direct_completion(dataset)
         else:
